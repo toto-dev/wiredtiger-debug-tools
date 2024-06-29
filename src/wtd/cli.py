@@ -7,6 +7,7 @@ import subprocess
 import json
 import logging
 import datetime
+import shutil
 
 from pathlib import Path
 from rich.console import Console
@@ -31,14 +32,31 @@ def json_converter(o):
         return str(o)
 
 
-def stream_wt_table(tableName):
-    return subprocess.Popen(
-        ["wt", "-R", "dump", "-x", tableName], stdout=subprocess.PIPE
-    ).stdout
+def stream_wt_table(table_name):
+    wt = shutil.which("wt")
+
+    if wt is None:
+        raise Exception(
+            "Could not find 'wt' executable. "
+            "Please make sure the executable is installed "
+            "and PATH environment variable is correctly set."
+        )
+
+    file_name = add_suffix(Path(table_name), WT_SUFFIX)
+    if not file_name.exists():
+        raise FileNotFoundError(f"WiredTiger table '{file_name}' not found")
+
+    proc = subprocess.Popen(
+        [wt, "-R", "dump", "-x", table_name],
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+    )
+    return proc
 
 
 def load_wt_table(tableName):
-    stream = stream_wt_table(tableName)
+    proc = stream_wt_table(tableName)
+    stream = proc.stdout
     arr = []
 
     # Skip all line until data section
