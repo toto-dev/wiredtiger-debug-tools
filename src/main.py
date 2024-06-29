@@ -1,17 +1,13 @@
 #!/usr/bin/env python2
 
-import sys
-import pprint
 import bson
 import codecs
 import click
 import subprocess
 import json
 import logging
-import rich
 import datetime
 
-from uuid import UUID
 from pathlib import Path
 from rich.console import Console
 
