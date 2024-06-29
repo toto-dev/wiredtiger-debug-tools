@@ -163,6 +163,10 @@ def cat_cmd(coll_name):
         console.print_json(json.dumps(data, default=json_converter))
 
 
-if __name__ == "__main__":
+def main():
     logging.basicConfig(level=logging.INFO)
     cli()
+
+
+if __name__ == "__main__":
+    main()
