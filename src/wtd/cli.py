@@ -1,14 +1,14 @@
 #!/usr/bin/env python2
 
-import bson
 import codecs
 import click
 import subprocess
 import json
 import logging
-import datetime
 import shutil
 
+from bson import BSON
+from bson.json_util import dumps, loads
 from pathlib import Path
 from rich.console import Console
 
@@ -23,13 +23,6 @@ def add_suffix(path, suffix):
     if path.suffix == suffix:
         return path
     return path.with_suffix(path.suffix + suffix)
-
-
-def json_converter(o):
-    if isinstance(o, (datetime.datetime, datetime.date)):
-        return o.isoformat()
-    else:
-        return str(o)
 
 
 def stream_wt_table(table_name):
@@ -75,7 +68,7 @@ def load_wt_table(tableName):
         key_raw = key_raw.strip()
         value_raw = stream.readline().strip()
         value_string = codecs.decode(value_raw, "hex")
-        value = bson.loads(value_string)
+        value = BSON(value_string).decode()
         arr.append(value)
 
     return arr
@@ -87,7 +80,7 @@ def convert_table(table_name, output_file=None):
 
     table_decoded = load_wt_table(table_name)
     with open(output_file, "w") as f:
-        json.dump(table_decoded, f, default=json_converter)
+        f.write(dumps(table_decoded))
     logger.info(f"Converted table '{table_name}' to '{output_file}")
     return table_decoded, output_file
 
@@ -96,7 +89,7 @@ def load_catalog():
     catalog_path = add_suffix(Path(CATALOG_TABLE_NAME), JSON_SUFFIX)
     if catalog_path.exists():
         with catalog_path.open() as f:
-            return json.load(f)
+            return loads(f.read())
 
     return convert_table(CATALOG_TABLE_NAME)[0]
 
@@ -160,7 +153,7 @@ def cat_cmd(coll_name):
 
     console = Console()
     with console.pager(styles=True):
-        console.print_json(json.dumps(data, default=json_converter))
+        console.print_json(dumps(data))
 
 
 def main():
