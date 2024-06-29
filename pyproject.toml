@@ -17,9 +17,6 @@ rich = "^13.7.1"
 click = "^8.1.7"
 pymongo = "^4.8.0"
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.5.0"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
