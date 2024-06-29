@@ -1,2 +1,2 @@
-# mongo-wt-files-debug
-Collections of tools to debug and analyze mongodb wiredtiger files
+# WiredTiger debug tools
+Collections of tools to debug and analyze MongoDB WiredTiger files
