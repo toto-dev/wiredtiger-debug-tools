@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "wiredtiger-debug-tools"
+version = "0.1.0"
+description = "Collections of tools to debug and analyze MongoDB WiredTiger files"
+authors = ["Tommaso Tocci <tommaso.tocci@mongodb.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+rich = "^13.7.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
