@@ -13,6 +13,7 @@ import datetime
 
 from uuid import UUID
 from pathlib import Path
+from rich.console import Console
 
 CATALOG_TABLE_NAME = "_mdb_catalog"
 JSON_SUFFIX = ".json"
@@ -132,7 +133,10 @@ def convert_cmd(coll_name):
 @click.argument('coll_name')
 def cat_cmd(coll_name):
     data, file = load_collection(coll_name)
-    rich.print_json(json.dumps(data, default=json_converter))
+
+    console = Console()
+    with console.pager(styles=True):
+        console.print_json(json.dumps(data, default=json_converter))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
