@@ -128,11 +128,16 @@ def load_collection(name):
 
 @click.group()
 def cli():
-    pass
+    """
+    Utility to debug and analyze MongoDB WiredTiger files
+    """
 
 
 @cli.command()
 def list_collections():
+    """
+    List all collections from the mdb catalog.
+    """
     for e in load_catalog():
         ns = e["ns"]
         ident = e["ident"]
@@ -142,6 +147,9 @@ def list_collections():
 @cli.command("convert")
 @click.argument("coll_name")
 def convert_cmd(coll_name):
+    """
+    Convert a collection from `wt` to `json` format.
+    """
     data, file = load_collection(coll_name)
     click.echo(f"Converted collection '{coll_name}' to '{file}'")
 
@@ -149,6 +157,9 @@ def convert_cmd(coll_name):
 @cli.command("cat")
 @click.argument("coll_name")
 def cat_cmd(coll_name):
+    """
+    Output the content of a collection in JSON format to the standard output.
+    """
     data, file = load_collection(coll_name)
 
     console = Console()
