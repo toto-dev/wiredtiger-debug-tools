@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wiredtiger-debug-tools"
-version = "0.1.0"
+version = "0.1.1"
 description = "Collections of tools to debug and analyze MongoDB WiredTiger files"
 authors = ["Tommaso Tocci <tommaso.tocci@mongodb.com>"]
 readme = "README.md"
