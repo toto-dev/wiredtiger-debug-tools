@@ -16,7 +16,7 @@ Or compile `wt` from [source](https://source.wiredtiger.com/)
 
 If you compiled `wt` from source, make sure to add the installation folder to your PATH environment variable.
 
-## Package 
+## Package
 The `wiredtiger-debug-tools` package is available on PyPI
 ```
 pip install wiredtiger-debug-tools
@@ -37,3 +37,14 @@ wtd cat local.oplog.rs
 You can use [FZF](https://github.com/junegunn/fzf) to interactively select the the collection to open
 ```
 wtd cat `wtd list-collections | fzf | cut -d " " -f1`
+```
+
+## CLI Autocompletion
+To enable CLI auto-completion on ZSH shell run:
+```
+eval "$(_WTD_COMPLETE=zsh_source wtd)"
+```
+On Bash shell:
+```
+eval "$(_WTD_COMPLETE=bash_source wtd)"
+```

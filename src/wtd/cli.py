@@ -126,6 +126,21 @@ def load_collection(name):
     return convert_table(ident, json_file)
 
 
+def autocomplete_collections(ctx, param, incomplete):
+    res = ["_mdb_catalog"]
+
+    try:
+        catalog = load_catalog()
+    except Exception:
+        return res
+
+    for e in catalog:
+        if e["ns"].startswith(incomplete):
+            res.append(e["ns"])
+
+    return res
+
+
 @click.group()
 def cli():
     """
@@ -155,7 +170,7 @@ def convert_cmd(coll_name):
 
 
 @cli.command("cat")
-@click.argument("coll_name")
+@click.argument("coll_name", shell_complete=autocomplete_collections)
 def cat_cmd(coll_name):
     """
     Output the content of a collection in JSON format to the standard output.
