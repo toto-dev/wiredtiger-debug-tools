@@ -62,8 +62,8 @@ def check_proc_err(proc):
         )
 
 
-def load_wt_table(tableName):
-    proc = stream_wt_table(tableName)
+def load_wt_table(table_name):
+    proc = stream_wt_table(table_name)
     stream = proc.stdout
     arr = []
 
@@ -72,7 +72,7 @@ def load_wt_table(tableName):
         line = stream.readline()
         if not line:
             check_proc_err(proc)
-            raise Exception(f"Couldn't find data header in '{tableName}' wt table")
+            raise Exception(f"Couldn't find data header in '{table_name}' wt table")
         line = line.strip()
         if line == b"Data":
             break
