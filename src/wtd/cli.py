@@ -47,6 +47,21 @@ def stream_wt_table(table_name):
     return proc
 
 
+def check_proc_err(proc):
+    try:
+        sout, serr = proc.communicate(timeout=15)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        sout, serr = proc.communicate()
+
+    assert proc.returncode is not None
+
+    if proc.returncode != 0:
+        raise Exception(
+            f"Command '{proc.args[0]}' returned code '{proc.returncode}' and error: {serr}"
+        )
+
+
 def load_wt_table(tableName):
     proc = stream_wt_table(tableName)
     stream = proc.stdout
@@ -56,6 +71,7 @@ def load_wt_table(tableName):
     while True:
         line = stream.readline()
         if not line:
+            check_proc_err(proc)
             raise Exception(f"Couldn't find data header in '{tableName}' wt table")
         line = line.strip()
         if line == b"Data":
@@ -71,6 +87,7 @@ def load_wt_table(tableName):
         value = BSON(value_string).decode()
         arr.append(value)
 
+    check_proc_err(proc)
     return arr
 
 
