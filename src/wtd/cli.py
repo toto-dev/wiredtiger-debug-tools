@@ -159,6 +159,7 @@ def autocomplete_collections(ctx, param, incomplete):
 
 
 @click.group()
+@click.version_option(package_name="wiredtiger-debug-tools")
 def cli():
     """
     Utility to debug and analyze MongoDB WiredTiger files
