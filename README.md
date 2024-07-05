@@ -8,13 +8,14 @@ Collection  of tools to debug and analyze MongoDB WiredTiger files
 ## Dependencies
 In order to use the provided debug tools you need to install `wt` binary on your system.
 
-You can either use your system package manager. E.g.
+`wt` can be compiled from wiredtiger [source](https://source.wiredtiger.com/) following [this procedure](https://source.wiredtiger.com/develop/build-posix.html) or from MongoDB [source](https://github.com/mongodb/mongo) using:
 ```
-apt install wiredtiger
+ninja install-wiredtiger
 ```
-Or compile `wt` from [source](https://source.wiredtiger.com/)
+Once you have the `wt` binary, make sure to add its installation folder to your PATH environment variable.
 
-If you compiled `wt` from source, make sure to add the installation folder to your PATH environment variable.
+
+The wiredtiger package provided in major Linux usually provides a very old version of `wt` that is not capable of processing .wt files produced in newer versions.
 
 ## Package
 The `wiredtiger-debug-tools` package is available on PyPI
